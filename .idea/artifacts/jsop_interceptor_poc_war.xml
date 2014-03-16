@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="jsop-interceptor-poc:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="jsop-interceptor-poc.war">
+      <element id="artifact" artifact-name="jsop-interceptor-poc:war exploded" />
+    </root>
+  </artifact>
+</component>

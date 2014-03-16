@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>JSONP Interceptor Test</title>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript">
+
+        function getTypeForMime(mimeType) {
+            var mimeMap = {
+                'application/json': 'json',
+                'text/javascript': 'jsonp',
+                'application/xml': 'xml'
+            };
+            if (mimeType in mimeMap) {
+                return mimeMap[mimeType];
+            } else {
+                throw "Can't map MIME type ' + mimeType + ' to a file extension";
+            }
+        }
+        jQuery(document).ready(function($) {
+            $('#data-request-form').submit(function(event) {
+                event.preventDefault();
+                var url = $(this).find('[name="url"]').val();
+                var acceptHeader = $(this).find('[name="acceptHeader"]').val();
+                $.ajax({
+                    url: url,
+                    accepts: {
+                        '*': acceptHeader
+                    },
+                    method: 'GET',
+                    success: function(data, textStatus, jqXHR) {
+                        $('#content').text(jqXHR.responseXML || jqXHR.responseText);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#content').text(errorThrown);
+                    }
+                });
+            });
+        })
+    </script>
+</head>
+<body>
+    <form id="data-request-form">
+        <p><label for="url">URL:</label><input name="url" id="url" type="text" size="120"
+                                               value="/user/balaguan"></p>
+        <p>
+            <label for="acceptHeader">Accept Header:</label>
+            <select name="acceptHeader" id="acceptHeader">
+                <option>*/*</option>
+                <option>application/json</option>
+                <option>text/javascript</option>
+                <option>application/xml</option>
+            </select>
+        </p>
+        <p><input type="submit"></p>
+    </form>
+    <pre id="content"></pre>
+</body>
+</html>
